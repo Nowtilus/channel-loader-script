@@ -47,7 +47,7 @@ async function run () {
         method: 'DELETE',
         headers
       })
-      if(deleteResponse.status !== 200) throw new Error('Failed to delete channel', deleteResponse.status)
+      if(![200,404].includes(deleteResponse.status)) throw new Error('Failed to delete channel', deleteResponse.status)
       console.log('DELETED:', channelId)
 
       await sleep(1000)
