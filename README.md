@@ -34,6 +34,6 @@ Config params:
   USERNAME="nowtilus" \
   PASSWORD="your_cluster_api_password" \
   CLUSTER_RANGE="1..5" \
-  CLUSTER_URL_TEMPLATE="http://api.ssai-{}.jio.serverside.ai/channel-api/api/v1/channels" \
+  CLUSTER_URL_TEMPLATE="http://api.ssai-{}.blabla.serverside.ai/channel-api/api/v1/channels" \
   node index.js
 ```
