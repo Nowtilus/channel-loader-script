@@ -33,7 +33,7 @@ async function run () {
       method: 'GET', 
       headers
     })
-    if(response.status !== 200) throw new Error('Failed to get channel', response.status)
+    if(response.status !== 200) throw new Error('Failed to get channel: ' + response.status)
     const channel = await response.json()
     console.log('LOADED CHANNEL:', JSON.stringify(channel))
     console.log('UPDATING CHANNEL:', channelId)
@@ -47,21 +47,31 @@ async function run () {
         method: 'DELETE',
         headers
       })
-      if(![200,404].includes(deleteResponse.status)) throw new Error('Failed to delete channel', deleteResponse.status)
+      if(![200,404].includes(deleteResponse.status)) throw new Error('Failed to delete channel: ' + deleteResponse.status)
       console.log('DELETED:', channelId)
 
-      await sleep(1000)
-
+      await sleep(2000)
+      
       const createResponse = await fetch(clusterUrl, {
         method: 'POST',
         headers,
         body: JSON.stringify(channel),
       })
-
-      if(createResponse.status !== 201) throw new Error('Failed to create channel', createResponse.status)
+      if(createResponse.status !== 201) throw new Error('Failed to create channel: ' + createResponse.status)
       const data = await createResponse.json()
       console.log('UPDATED CHANNEL IN CLUSTER:', clusterUrl)
+      
+      await sleep(2000)
+      const enableResponse = await fetch(clusterUrl + '/' + channelId, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({"state": "enabled"}),
+      })
+      const enableData = await enableResponse.text()
+      if(enableResponse.status !== 200) throw new Error('Failed to enable channel: ' + enableResponse.status + ' - ' + enableData)
+      console.log('ENABLED CHANNEL IN CLUSTER:', clusterUrl)
     }
+
     console.log('FINISHED UPDATING ALL CLUSTERS')
   } catch (e) {
     console.error(e)
