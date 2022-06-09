@@ -6,8 +6,8 @@ const channelId = process.env.CHANNEL_ID
 if(!channelId) throw new Error('CHANNEL_ID is not set')
 const password = process.env.PASSWORD
 if(!password) throw new Error('PASSWORD is not set')
-const username = process.env.USERNAME
-if(!username) throw new Error('USERNAME is not set')
+const username = process.env.API_USER
+if(!username) throw new Error('API_USER is not set')
 const clusterRange = process.env.CLUSTER_RANGE.split('..') // 1..5
 if(!clusterRange || clusterRange.length !== 2) throw new Error('USERNAME is not set')
 const firstCluster = clusterRange[0]
@@ -17,6 +17,8 @@ const clusterUrlTemplate = process.env.CLUSTER_URL_TEMPLATE // http://api.ssai-{
 if(!clusterUrlTemplate) throw new Error('USERNAME is not set')
 
 const sourceUrl = clusterUrlTemplate.replace('{}', '0')
+
+console.log(channelId, password, username, clusterRange, clusterUrlTemplate, sourceUrl)
 
 const headers = {
   'Content-Type': 'application/json',
@@ -29,6 +31,7 @@ function loadChannel () {
 
 async function run () {
   try {
+    console.log(sourceUrl + '/' + channelId)
     const response = await fetch(sourceUrl + '/' + channelId, {
       method: 'GET', 
       headers

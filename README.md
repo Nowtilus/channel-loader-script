@@ -31,7 +31,7 @@ Config params:
 
 ```bash
   CHANNEL_ID="8111626d-f697-4330-887a-f2be0b4f2127" \
-  USERNAME="nowtilus" \
+  API_USER="nowtilus" \
   PASSWORD="your_cluster_api_password" \
   CLUSTER_RANGE="1..5" \
   CLUSTER_URL_TEMPLATE="http://api.ssai-{}.blabla.serverside.ai/channel-api/api/v1/channels" \
